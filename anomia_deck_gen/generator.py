@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from typing import List, Tuple
 from random import shuffle
+from math import floor
 
 def create_text_image(text: str, font: ImageFont.ImageFont) -> Image.Image:
     img = Image.new("RGBA", font.getsize(text), (0, 0, 0, 0))
@@ -36,6 +37,6 @@ def generate_deck(categories: List[str], symbols: List[Image.Image], symbol_size
     shuffled_categories = list(categories)
     shuffle(shuffled_categories)
     # Tag each category with a symbol
-    tagged_categories = [(category, normalized_symbols[i % len(symbols)]) for i, category in enumerate(shuffled_categories)]
+    tagged_categories = [(category, normalized_symbols[floor(i/len(categories) * len(symbols))]) for i, category in enumerate(shuffled_categories)]
     # Generate card images
     return [generate_card(category, symbol, **kwargs) for category, symbol in tagged_categories]

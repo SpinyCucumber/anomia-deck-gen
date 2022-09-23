@@ -40,7 +40,7 @@ def anomia_deck_gen(category_file, symbol_folder, font_file, output_folder):
     # Generate deck
     cards = generate_deck(categories, symbols, font=font, size=(500, 800), symbol_size=(300, 300), margin=50)
     # Save all cards to output folder
-    os.makedirs(output_folder)
+    os.makedirs(output_folder, exist_ok=True)
     for i, card in enumerate(cards):
         name = f"front_{i:03}.png"
         card.save(os.path.join(output_folder, name))
