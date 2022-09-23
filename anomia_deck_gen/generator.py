@@ -19,7 +19,7 @@ def generate_card(
     # Create blank image
     img = Image.new("RGBA", size, "white")
     # Paste symbol into image
-    img.paste(symbol, tuple(size[i]//2 - symbol.size[i]//2 for i in range(2)))
+    img.alpha_composite(symbol, tuple(size[i]//2 - symbol.size[i]//2 for i in range(2)))
     # Draw text onto image
     text_img = create_text_image(category, font)
     img.alpha_composite(text_img, (size[0]//2 - text_img.size[0]//2, size[1] - margin - text_img.size[1]))
