@@ -45,8 +45,8 @@ def generate_card(
     size: Tuple[int, int],
     margin: int,
     line_spacing: int,
-    font: ImageFont.ImageFont) -> Image.Image:
-
+    font: ImageFont.ImageFont
+    ) -> Image.Image:
     # Create blank image
     img = Image.new("RGBA", size, "white")
     # Paste symbol into image
