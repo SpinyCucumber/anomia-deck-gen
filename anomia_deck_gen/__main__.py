@@ -61,9 +61,11 @@ def anomia_deck_gen(
     OUTPUT_FOLDER is the folder which generated cards are saved to.
     """
     # Load categories
-    categories = category_loader(category_file)
-    if categories == None:
-        raise click.ClickException("Failed to load categories")
+    try:
+        categories = category_loader(category_file)
+    except Exception as exc:
+        click.echo(f"Failed to load categories: {exc}", err=True)
+        raise click.Abort()
     # Load symbols
     symbols = symbol_loader(symbol_folder)
     # Load font
@@ -82,7 +84,7 @@ def anomia_deck_gen(
         name = f"front_{i:03}.png"
         card.save(os.path.join(output_folder, name))
     # Print out a nice message
-    print(f"Success! Generated {len(cards)} card(s).")
+    click.echo(f"Success! Generated {len(cards)} card(s).")
 
 if __name__ == "__main__":
     anomia_deck_gen()
