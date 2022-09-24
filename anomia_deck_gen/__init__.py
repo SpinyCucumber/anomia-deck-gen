@@ -54,11 +54,11 @@ def main(
     CATEGORY_FILE should be a txt or csv file with one category per line. Categories may be multiple words.
 
     SYMBOL_FOLDER should be a folder containing symbol images, preferably in PNG format.
-    The program attempts to randomly tag the cards with an equal amount of each symbol.
+    The program attempts to randomly tag the cards with an equal number of each symbol.
 
     FONT_FILE should be a TrueType font file used to render the category text on each card.
 
-    OUTPUT_FOLDER is the folder which generated cards are saved to.
+    OUTPUT_FOLDER is the folder which generated cards are saved to. Defaults to "output"
     """
     # Load categories
     try:
