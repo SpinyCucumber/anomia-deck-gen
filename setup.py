@@ -13,4 +13,7 @@ setup(
         "colorama==0.4.5",
         "Pillow==9.2.0",
     ],
+    entry_points={
+        "console_scripts": ["anomia_deck_gen=anomia_deck_gen:main"],
+    },
 )
