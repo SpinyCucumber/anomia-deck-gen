@@ -3,10 +3,17 @@ from typing import List, Tuple
 from random import shuffle
 from math import floor
 
-def create_text_image(text: str, font: ImageFont.ImageFont, max_length: int, line_spacing: int) -> Image.Image:
+def create_text_image(text: str, font: ImageFont.FreeTypeFont, max_length: int, line_spacing: int) -> Image.Image:
 
-    # First, we split the text into lines which are strictly shorter than the max length
+    # First, determine the longest word length. If the longest word is longer than the max length,
+    # we decrease the font size appropriately.
     words = text.split(" ")
+    max_word_length = max([font.getlength(word) for word in words])
+    if max_word_length > max_length:
+        new_size = int((max_length / max_word_length) * font.size)
+        font = font.font_variant(size=new_size)
+
+    # Split the text into lines which are strictly shorter than the max length
     lines = []
     current_line = words[0]
     for word in words[1:]:
