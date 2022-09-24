@@ -3,10 +3,40 @@ from typing import List, Tuple
 from random import shuffle
 from math import floor
 
-def create_text_image(text: str, font: ImageFont.ImageFont) -> Image.Image:
-    img = Image.new("RGBA", font.getsize(text), (0, 0, 0, 0))
+def create_text_image(text: str, font: ImageFont.ImageFont, max_length: int, line_spacing: int) -> Image.Image:
+
+    # First, we split the text into lines which are strictly shorter than the max length
+    words = text.split(" ")
+    lines = []
+    current_line = words[0]
+    for word in words[1:]:
+        test_line = current_line + " " + word
+        if font.getlength(test_line) > max_length:
+            lines.append(current_line)
+            current_line = word
+        else:
+            current_line = test_line
+    lines.append(current_line)
+
+    # Compute the image size from the lines
+    height = 0
+    width = 0
+    line_sizes = [font.getsize(line) for line in lines]
+    for line_width, line_height in line_sizes:
+        width = max(width, line_width)
+        height += line_height
+    height += (line_spacing * (len(lines) - 1))
+
+    # Create new image
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    draw.text((0, 0), text, fill="black", font=font)
+
+    # Render text onto image
+    x = width//2
+    y = 0
+    for i, line in enumerate(lines):
+        draw.text((x, y), line, anchor="mt", fill="black", font=font)
+        y += (line_sizes[i][1] + line_spacing)
     return img
 
 def generate_card(
@@ -14,6 +44,7 @@ def generate_card(
     symbol: Image.Image,
     size: Tuple[int, int],
     margin: int,
+    line_spacing: int,
     font: ImageFont.ImageFont) -> Image.Image:
 
     # Create blank image
@@ -21,7 +52,7 @@ def generate_card(
     # Paste symbol into image
     img.alpha_composite(symbol, tuple(size[i]//2 - symbol.size[i]//2 for i in range(2)))
     # Draw text onto image
-    text_img = create_text_image(category, font)
+    text_img = create_text_image(category, font, max_length=(size[0] - 2*margin), line_spacing=line_spacing)
     img.alpha_composite(text_img, (size[0]//2 - text_img.size[0]//2, size[1] - margin - text_img.size[1]))
     # Flip the text and draw on top
     flipped_text = text_img.transpose(Image.Transpose.ROTATE_180)

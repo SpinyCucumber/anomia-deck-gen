@@ -36,9 +36,9 @@ def anomia_deck_gen(category_file, symbol_folder, font_file, output_folder):
     # Load symbols
     symbols = symbol_loader(symbol_folder)
     # Load font
-    font = ImageFont.FreeTypeFont(font_file, 50)
+    font = ImageFont.FreeTypeFont(font_file, 55)
     # Generate deck
-    cards = generate_deck(categories, symbols, font=font, size=(500, 800), symbol_size=(300, 300), margin=50)
+    cards = generate_deck(categories, symbols, font=font, size=(500, 800), symbol_size=(300, 300), margin=30, line_spacing=5)
     # Save all cards to output folder
     os.makedirs(output_folder, exist_ok=True)
     for i, card in enumerate(cards):
