@@ -52,7 +52,7 @@ def generate_card(
     size: Tuple[int, int],
     margin: int,
     line_spacing: int,
-    font: ImageFont.ImageFont
+    font: ImageFont.FreeTypeFont
     ) -> Image.Image:
     # Create blank image
     img = Image.new("RGBA", size, "white")
